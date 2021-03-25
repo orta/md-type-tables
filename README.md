@@ -28,71 +28,67 @@ And use it to generate this table:
 
 <!-- AUTO-GENERATED-CONTENT:START (TYPES:src=./types.ts&symbol=SomeType) -->
 <table width="100%">
-  <thead align=left>
-    <tr>
-      <th width=150>
-        name
-      </th>
-      <th width=70>
-        type
-      </th>
-      <th>
-        description
-      </th>
-    </tr>
-  </thead>
-  <tbody align=left valign=top>
+<thead align=left>
+  <tr>
+    <th width=150>
+      name
+    </th>
+    <th width=70>
+      type
+    </th>
+    <th>
+      description
+    </th>
+  </tr>
+</thead>
+<tbody align=left valign=top>
 
-        <tr>
-          <th>
-            <code>clientId</code>
-          </th>
-          <th>
-            <code>undefined</code>
-          </th>
-          <td>
+<tr>
+  <th>
+    <code>clientId</code>
+  </th>
+  <th>
+    <code>string</code>
+  </th>
+  <td>
 
 **Required**
 Client ID of your GitHub/OAuth App. Find it on your app's settings page.
 
-          </td>
-        </tr>
+  </td>
+</tr>
 
-
-        <tr>
-          <th>
-            <code>clientSecret</code>
-          </th>
-          <th>
-            <code>undefined</code>
-          </th>
-          <td>
+<tr>
+  <th>
+    <code>clientSecret</code>
+  </th>
+  <th>
+    <code>string</code>
+  </th>
+  <td>
 
 **Required**
 Client Secret for your GitHub/OAuth App. Create one on your app's settings page.
 
-          </td>
-        </tr>
+  </td>
+</tr>
 
-
-        <tr>
-          <th>
-            <code>clientType</code>
-          </th>
-          <th>
-            <code>undefined</code>
-          </th>
-          <td>
+<tr>
+  <th>
+    <code>clientType</code>
+  </th>
+  <th>
+    <code>string</code>
+  </th>
+  <td>
 
 Either "oauth-app" or "github-app". Defaults to "oauth-app".
 
-          </td>
-        </tr>
+  </td>
+</tr>
 
-
-     </tbody>
-
-   </table>
+   </tbody>
+ </table>
 
 <!-- AUTO-GENERATED-CONTENT:END -->
 
@@ -130,30 +126,13 @@ module.exports = {
       if (!typeNode)
         throw new Error(`Could not find ${options.symbol} in ${options.src}`);
 
-      const prefix = `<table width="100%">
-  <thead align=left>
-    <tr>
-      <th width=150>
-        name
-      </th>
-      <th width=70>
-        type
-      </th>
-      <th>
-        description
-      </th>
-    </tr>
-  </thead>
-  <tbody align=left valign=top>`;
-      const suffix = `
-     </tbody>
-   </table>
-`;
       mds.push(prefix);
-
       typeNode.type.members.forEach((member) => {
         const name = member.name.escapedText;
-        const type = member.type.escapedText;
+        const type = sourceFile.text.slice(
+          member.type.pos + 1,
+          member.type.end
+        );
 
         const required =
           member.jsDoc &&
@@ -163,29 +142,48 @@ module.exports = {
         const info =
           member.jsDoc && member.jsDoc.map((jd) => jd.comment).join("\n\n");
 
-        mds.push(`
-        <tr>
-          <th>
-            <code>${name}</code>
-          </th>
-          <th>
-            <code>${type}</code>
-          </th>
-          <td>
+        mds.push(`<tr>
+  <th>
+    <code>${name}</code>
+  </th>
+  <th>
+    <code>${type}</code>
+  </th>
+  <td>
 
 ${required ? "**Required**" : ""}
 ${info}
 
-          </td>
-        </tr>`);
+  </td>
+</tr>`);
       });
-      debugger;
 
       mds.push(suffix);
       return mds.join("\n\n");
     },
   },
 };
+
+const prefix = `<table width="100%">
+<thead align=left>
+  <tr>
+    <th width=150>
+      name
+    </th>
+    <th width=70>
+      type
+    </th>
+    <th>
+      description
+    </th>
+  </tr>
+</thead>
+<tbody align=left valign=top>`;
+
+const suffix = `
+   </tbody>
+ </table>
+`;
 ```
 
 <!-- AUTO-GENERATED-CONTENT:END -->

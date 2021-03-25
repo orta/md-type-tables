@@ -20,54 +20,55 @@ module.exports = {
       findSymbol(sourceFile)
       if (!typeNode) throw new Error(`Could not find ${options.symbol} in ${options.src}`)
       
-      const prefix = `<table width="100%">
-  <thead align=left>
-    <tr>
-      <th width=150>
-        name
-      </th>
-      <th width=70>
-        type
-      </th>
-      <th>
-        description
-      </th>
-    </tr>
-  </thead>
-  <tbody align=left valign=top>`
-     const suffix = `
-     </tbody>
-   </table>
-`
       mds.push(prefix)
-
       typeNode.type.members.forEach(member => {
         const name = member.name.escapedText
-        const type = member.type.escapedText
+        const type =  sourceFile.text.slice(member.type.pos + 1, member.type.end)
 
         const required = member.jsDoc && !!member.jsDoc.find(d => d.tags && d.tags.find(t => t.tagName.escapedText))
         const info = member.jsDoc && member.jsDoc.map(jd => jd.comment).join("\n\n")
 
-        mds.push(`
-        <tr>
-          <th>
-            <code>${name}</code>
-          </th>
-          <th>
-            <code>${type}</code>
-          </th>
-          <td>
+        mds.push(`<tr>
+  <th>
+    <code>${name}</code>
+  </th>
+  <th>
+    <code>${type}</code>
+  </th>
+  <td>
 
 ${required ? "**Required**" : ""}
 ${info}
 
-          </td>
-        </tr>`)
+  </td>
+</tr>`)
       })
-      debugger
 
       mds.push(suffix)
       return mds.join('\n\n')
     },
   }
 }
+
+
+const prefix = `<table width="100%">
+<thead align=left>
+  <tr>
+    <th width=150>
+      name
+    </th>
+    <th width=70>
+      type
+    </th>
+    <th>
+      description
+    </th>
+  </tr>
+</thead>
+<tbody align=left valign=top>`
+
+   const suffix = `
+   </tbody>
+ </table>
+`
+    
