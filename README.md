@@ -59,8 +59,6 @@ Client ID of your GitHub/OAuth App. Find it on your app's settings page.
         </tr>
 
 
-
-
         <tr>
           <th>
             <code>clientSecret</code>
@@ -77,8 +75,6 @@ Client Secret for your GitHub/OAuth App. Create one on your app's settings page.
         </tr>
 
 
-
-
         <tr>
           <th>
             <code>clientType</code>
@@ -92,8 +88,6 @@ Either "oauth-app" or "github-app". Defaults to "oauth-app".
 
           </td>
         </tr>
-
-
 
 
      </tbody>
@@ -183,9 +177,7 @@ ${required ? "**Required**" : ""}
 ${info}
 
           </td>
-        </tr>
-
-        `);
+        </tr>`);
       });
       debugger;
 
