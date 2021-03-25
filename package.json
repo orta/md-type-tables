@@ -1,0 +1,15 @@
+{
+  "name": "md-type-tables",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Orta Therox",
+  "license": "MIT",
+  "scripts": {
+    "readme": "yarn md-magic README.md --config ./index.js && yarn prettier README.md --write"
+  },
+  "dependencies": {
+    "markdown-magic": "^2.0.0",
+    "prettier": "^2.2.1",
+    "typescript": "^4.2.3"
+  }
+}
